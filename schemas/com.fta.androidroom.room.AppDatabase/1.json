@@ -1,0 +1,174 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "3b66681f87560adf721ab45f0b477f2c",
+    "entities": [
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `first_name` TEXT, `last_name` TEXT, `age` INTEGER NOT NULL, `region` TEXT, `birthday` INTEGER, `firststreet` TEXT, `firststate` TEXT, `firstcity` TEXT, `firstpost_code` INTEGER, `secondstreet` TEXT, `secondstate` TEXT, `secondcity` TEXT, `secondpost_code` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "first_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "last_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "age",
+            "columnName": "age",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birthday",
+            "columnName": "birthday",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.street",
+            "columnName": "firststreet",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.state",
+            "columnName": "firststate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.city",
+            "columnName": "firstcity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address.postCode",
+            "columnName": "firstpost_code",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "addressTwo.street",
+            "columnName": "secondstreet",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "addressTwo.state",
+            "columnName": "secondstate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "addressTwo.city",
+            "columnName": "secondcity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "addressTwo.postCode",
+            "columnName": "secondpost_code",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_users_first_name_last_name",
+            "unique": true,
+            "columnNames": [
+              "first_name",
+              "last_name"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_users_first_name_last_name` ON `${TABLE_NAME}` (`first_name`, `last_name`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Book",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`book_id` INTEGER NOT NULL, `title` TEXT, `user_id` INTEGER NOT NULL, PRIMARY KEY(`book_id`), FOREIGN KEY(`user_id`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "bookId",
+            "columnName": "book_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "book_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Book_user_id",
+            "unique": true,
+            "columnNames": [
+              "user_id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Book_user_id` ON `${TABLE_NAME}` (`user_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "users",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "user_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3b66681f87560adf721ab45f0b477f2c\")"
+    ]
+  }
+}
