@@ -11,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey;
  * indices = {@Index("user_id")}设置索引
  */
 
-@Entity(indices = {@Index(value = "user_id", unique = true)},
+@Entity(
         foreignKeys = {@ForeignKey(entity = User.class,
                 onDelete = ForeignKey.CASCADE,
                 parentColumns = "id",

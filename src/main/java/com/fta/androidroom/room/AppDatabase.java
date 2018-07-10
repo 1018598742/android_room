@@ -12,9 +12,7 @@ import android.content.Context;
 /**
  * Created by Administrator on 2018/3/10 0010.
  */
-
-
-@Database(entities = {User.class,Book.class}, version = 1)
+@Database(entities = {User.class, Book.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MyDao userDao();
@@ -35,27 +33,27 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
 
-//    public static void setMigration(Context context){
-//        Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "aboutuser.db")
-//                .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
-//    }
-//
-//
-//
-//    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-//        @Override
-//        public void migrate(SupportSQLiteDatabase database) {
-//            database.execSQL("CREATE TABLE `Fruit` (`id` INTEGER, "
-//                    + "`name` TEXT, PRIMARY KEY(`id`))");
-//        }
-//    };
-//
-//    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
-//        @Override
-//        public void migrate(SupportSQLiteDatabase database) {
-//            database.execSQL("ALTER TABLE Book "
-//                    + " ADD COLUMN pub_year INTEGER");
-//        }
-//    };
+    //一下为升级时用到的代码（迁移）
+    public static void setMigration(Context context) {
+        Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "aboutuser.db")
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
+    }
+
+
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE `Fruit` (`id` INTEGER, "
+                    + "`name` TEXT, PRIMARY KEY(`id`))");
+        }
+    };
+
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE Book "
+                    + " ADD COLUMN pub_year INTEGER");
+        }
+    };
 
 }

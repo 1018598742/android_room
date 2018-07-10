@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3b66681f87560adf721ab45f0b477f2c",
+    "identityHash": "95026ae521a5405ca6489c1b84a14a68",
     "entities": [
       {
         "tableName": "users",
@@ -141,16 +141,7 @@
           ],
           "autoGenerate": false
         },
-        "indices": [
-          {
-            "name": "index_Book_user_id",
-            "unique": true,
-            "columnNames": [
-              "user_id"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_Book_user_id` ON `${TABLE_NAME}` (`user_id`)"
-          }
-        ],
+        "indices": [],
         "foreignKeys": [
           {
             "table": "users",
@@ -168,7 +159,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3b66681f87560adf721ab45f0b477f2c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"95026ae521a5405ca6489c1b84a14a68\")"
     ]
   }
 }

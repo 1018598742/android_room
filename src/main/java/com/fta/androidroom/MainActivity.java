@@ -55,6 +55,17 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
+    @OnClick(R.id.add_book_to_user2)
+    void addBookToUser2() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                insertBook();
+            }
+        }.start();
+    }
+
     @OnClick(R.id.load_user)
     void loadUsers() {
         new Thread() {
@@ -78,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.add_user_book)
-    void addUserAndBook(){
-        new Thread(){
+    void addUserAndBook() {
+        new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -99,9 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void insertBook() {
+        createMyDb().insertBook(createBook());
+    }
+
     public void insertUser() {
         long rowId = createMyDb().insertUser(creeateUser2());
-        Log.i(TAG, "insertUser: rowId=" + rowId);
+        Log.i(TAG, "MainActivity-insertUser: 添加行数（>0 为成功）：" + rowId);
     }
 
     private User creeateUser2() {
@@ -180,11 +195,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private int bookNum = 0;
+    private int bookId = 0;
+
     private Book createBook() {
+        bookNum++;
+        bookId++;
         Book book = new Book();
-        book.bookId = 1;
-        book.title = "书名";
+        book.bookId = bookId;
+        book.title = "书名" + bookNum;
         book.userId = 2;
+        Log.i(TAG, "MainActivity-createBook: 书的数量：" + bookNum + "=书的id=" + bookId);
         return book;
     }
 
@@ -209,10 +230,10 @@ public class MainActivity extends AppCompatActivity {
     private void deleteFromUser() {
         User[] users = createMyDb().loadAllUsers();
 
-        if (users.length >= 2){
+        if (users.length >= 2) {
             int deleteUser = createMyDb().deleteUser(users[1]);
-            Log.i(TAG, "deleteFromUser: deleteUser="+deleteUser);
-        }else {
+            Log.i(TAG, "deleteFromUser: deleteUser=" + deleteUser);
+        } else {
             Log.i(TAG, "deleteFromUser: length is < 2");
         }
 
