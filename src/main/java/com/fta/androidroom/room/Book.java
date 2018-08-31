@@ -27,4 +27,12 @@ public class Book {
     @ColumnInfo(name = "user_id")
     public int userId;
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookId=" + bookId +
+                ", title='" + title + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }

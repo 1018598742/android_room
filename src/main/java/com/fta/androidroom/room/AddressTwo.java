@@ -20,4 +20,14 @@ public class AddressTwo {
 
     @ColumnInfo(name = "post_code")
     public int postCode;
+
+    @Override
+    public String toString() {
+        return "AddressTwo{" +
+                "street='" + street + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", postCode=" + postCode +
+                '}';
+    }
 }

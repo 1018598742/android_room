@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2018/3/10 0010.
  */
-@Entity(tableName = "users",indices = {@Index(value = {"first_name","last_name"},unique = true)})
+@Entity(tableName = "users", indices = {@Index(value = {"first_name", "last_name"}, unique = true)})
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -40,4 +40,23 @@ public class User {
 
     @Ignore
     public Bitmap picture;
+
+    @ColumnInfo(name = "add_name")
+    public String addName;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", region='" + region + '\'' +
+                ", birthday=" + birthday +
+                ", address=" + address +
+                ", addressTwo=" + addressTwo +
+                ", picture=" + picture +
+                ", addName='" + addName + '\'' +
+                '}';
+    }
 }

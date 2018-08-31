@@ -3,6 +3,7 @@ package com.fta.androidroom;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.fta.androidroom.room.Address;
 import com.fta.androidroom.room.AddressTwo;
@@ -12,11 +13,14 @@ import com.fta.androidroom.room.MyDao;
 import com.fta.androidroom.room.NameTuple;
 import com.fta.androidroom.room.User;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @BindView(R.id.showUserInfo)
+    TextView mShowUsereInfo;
+
+    @BindView(R.id.showBookInfo)
+    TextView mShowBookInfo;
+
     @OnClick(R.id.create_db)
     void createDb() {
         new Thread() {
@@ -40,8 +50,12 @@ public class MainActivity extends AppCompatActivity {
 //                createDb();
                 insertUser();
 //                insertUserAndBook();
+                showInfo();
+
             }
         }.start();
+
+
     }
 
     @OnClick(R.id.find_by_firstname)
@@ -51,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 queryByFirstName();
+                showInfo();
+
             }
         }.start();
+
     }
 
     @OnClick(R.id.add_book_to_user2)
@@ -62,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 insertBook();
+                showInfo();
             }
         }.start();
     }
@@ -73,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 queryFromUser();
+                showInfo();
+
             }
         }.start();
     }
@@ -84,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 deleteFromUser();
+
+                showInfo();
             }
         }.start();
     }
@@ -95,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 insertUserAndBook();
+
+                showInfo();
             }
         }.start();
     }
@@ -153,13 +177,15 @@ public class MainActivity extends AppCompatActivity {
         user.lastName = "古人";
 
         user.region = "河北省保定市";
+
+        user.addName = "添加名字";
         return user;
 
     }
 
     private User creeateUser() {
         User user = new User();
-        user.id = 0;
+//        user.id = 0;
         Address address = new Address();
         address.city = "天津";
         address.postCode = 109;
@@ -242,4 +268,52 @@ public class MainActivity extends AppCompatActivity {
 //        int deleteUser = createMyDb().deleteUser(user);
 //        Log.i(TAG, "deleteFromUser: deleteUser=" + deleteUser);
     }
+
+
+    private void showUserInfo() {
+        List<User> users = createMyDb().findUsers();
+        final StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < users.size(); i++) {
+            stringBuilder.append("\n用户表：")
+                    .append("\n用户信息：").append(users.get(i).toString())
+                    .append("\n用户地址1：").append(users.get(i).address.toString())
+                    .append("\n用户地址2：").append(users.get(i).addressTwo.toString());
+        }
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mShowUsereInfo.setText(stringBuilder.toString());
+            }
+        });
+
+
+    }
+
+
+    private void showBookInfo() {
+        List<Book> books = createMyDb().findBooks();
+        final StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < books.size(); i++) {
+            stringBuilder.append("\n书表：")
+                    .append("\n书信息：").append(books.get(i).toString());
+
+        }
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mShowBookInfo.setText(stringBuilder.toString());
+            }
+        });
+
+    }
+
+    private void showInfo() {
+        showUserInfo();
+        showBookInfo();
+    }
+
 }

@@ -22,7 +22,7 @@ public interface MyDao {
     @Insert
     public void insertBothUsers(User user1, User user2);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long insertUser(User user);//可以将返回值设为 long 或者 Long,该值是插入新条目的 rowId;
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -75,4 +75,9 @@ public interface MyDao {
     User findUserByFirstName(String firstName);
 
 
+    @Query("SELECT * FROM users")
+    List<User> findUsers();
+
+    @Query("SELECT * FROM book")
+    List<Book> findBooks();
 }

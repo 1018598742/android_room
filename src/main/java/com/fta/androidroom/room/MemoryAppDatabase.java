@@ -4,7 +4,6 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
@@ -12,24 +11,24 @@ import android.content.Context;
 /**
  * Created by Administrator on 2018/3/10 0010.
  */
-@Database(entities = {User.class, Book.class}, version = 1)
+@Database(entities = {User.class, Book.class}, version = 2)
 @TypeConverters({Converters.class})
-public abstract class AppDatabase extends RoomDatabase {
+public abstract class MemoryAppDatabase extends RoomDatabase {
     public abstract MyDao userDao();
 
-    private static AppDatabase INSTANCE;
+    private static MemoryAppDatabase INSTANCE;
     private static final Object sLock = new Object();
 
-    public static AppDatabase getInstance(Context context) {
+    public static MemoryAppDatabase getInstance(Context context) {
         synchronized (sLock) {
             if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                        AppDatabase.class,
-                        "aboutuser.db")
+//                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+//                        MemoryAppDatabase.class,
+//                        "aboutuser.db")
 //                        .addMigrations(MIGRATION_1_2)
-                        .build();
+//                        .build();
                 //创建内存数据库，程序销毁，数据库销毁
-//                INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class).build();
+                INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(), MemoryAppDatabase.class).build();
             }
             return INSTANCE;
         }
@@ -38,7 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     //一下为升级时用到的代码（迁移）
     public static void setMigration(Context context) {
-        Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "aboutuser.db")
+        Room.databaseBuilder(context.getApplicationContext(), MemoryAppDatabase.class, "aboutuser.db")
                 .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
     }
 

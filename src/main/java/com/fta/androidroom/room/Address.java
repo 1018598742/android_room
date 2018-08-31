@@ -20,4 +20,14 @@ public class Address {
 
     @ColumnInfo(name = "post_code")
     public int postCode;
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "street='" + street + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", postCode=" + postCode +
+                '}';
+    }
 }
